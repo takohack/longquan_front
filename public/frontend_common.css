@@ -1,0 +1,202 @@
+body{background: #fff;}
+.req label span,.colorred{
+  color:#ff0000 !important;
+}
+input, select, textarea{
+  font-size: 13px;
+}
+.thumb-img{width: 100%; max-width: 150px; height: 150px; margin: 0 auto 10px auto;}
+.thumb-img img{width: 100%;height:100%;   }
+.mui-card-content{font-size: 13px;}
+.mui-search input{background: #fff;}
+.disabled{background: #ccc;}
+.list-title{font-size: 14px !important;line-height: 20px !important; color: #000 !important;  display:block; max-height: 40px; overflow: hidden; }
+
+/*通用列表样式*/
+.common-list{width: 100%;
+  display: inline-block;}
+.mui-table-view{width: 95%;margin: 10px auto !important;  background: #eee;}
+.common-list ul:before,.common-list ul:after{display:none;}
+.common-list .mui-table-view-cell{
+margin-top: 10px;
+border-radius: 10px;
+background: #fff;
+}
+
+.common-list .mui-table-view-cell:after{
+  display: none;
+}
+.common-list .ages{
+  float: left;
+  padding: 3px 5px;
+  color: #fff !important;
+  border-radius: 5px;
+  background: #fc9c15;
+}
+#gongyi_train .join_count,#gongyi_activity .join_count,#yanger_activity .join_count{
+  float: right;
+}
+.mui-table-view .data-empty{display: table;
+  width: 100%;
+  text-align: center;
+  padding: 20px;
+  background: #f8f8f8;
+  color: #999;
+  border-radius: 5px;
+  margin: 10px auto;}
+.mui-table-view .mui-media-body span{color: #999; white-space: normal;display: block;line-height: 15px; margin-top: 6px;font-size: 12px; }
+.mui-table-view .mui-media-object{width: 25% !important; max-width: 100% !important;max-height: 100% !important; float:left;text-align: center; margin-right: 10px !important; height: 100px !important;line-height: 100px !important;}
+.mui-table-view .mui-media-object img{width: 90%; max-width: 90% !important;max-height: 100% !important; display: inline-block; vertical-align: middle;}
+.mui-control-content{height: 400px;}
+ .mui-scroll-wrapper{overflow-y: auto;}
+ 
+ /*filter*/
+ .mui-search{    width: 95%;
+  margin: 5px auto;}
+ .filter-box{    width: 100%;
+  padding: 3px 10px;
+  background: #fff;overflow-x: auto;}
+ .filter-tab{width: 100%;}
+ .filter-tab-line{padding: 3px; margin:5px;float: left;}
+ .filter-tab-line.active{background-color: #007aff; color: #fff; border-radius: 5px;}
+ /*通用pop样式*/
+ .pop-box{position:fixed;top: 0;left:0;width: 100%;height: 100%;background: rgba(0,0,0,0.5);z-index:2;display: none;}
+ .pop-body{width: 90%;height: 50%; margin: 25% auto; background: #fff; border-radius: 10px; position: relative;overflow: hidden;}
+ .pop-title{width: 100%;font-size: 16px;text-align: center;height: 35px;line-height: 35px; background: #f8f8f8;position: absolute;top:0px;z-index: 2;}
+ .pop-content{padding: 40px 10px 50px 10px;}
+ .member-list{width: 100%;display: table;    padding: 0;}
+ .member-list li{list-style: none;width: 44%;float: left; line-height: 30px; border-radius: 5px;margin: 6px 3%; background: #fff;border: 1px solid #ccc; font-size: 14px;text-align: center;}
+ .member-list li span{color: #ff0000; }
+ .member-list li.active{background: #007aff;}
+ .member-list li.disabled{background: #ccc;}
+ .pop-footer{width: 100%;text-align: center;height: 50px;padding-top: 10px; background: #f8f8f8;position: absolute;bottom:0;z-index: 2;}
+ /* news*/
+ #news .mui-media-body span{font-size: 12px; line-height: 20px; margin-top: 6px;}
+ #news .short-desc{
+  line-height: 15px;
+   height: 45px;overflow: hidden;
+ }
+ #news .viewcount{
+   float: left;
+ }
+ #news .createtime{
+  float: right;
+}
+.index-news{height: 140px;overflow: hidden;}
+/*slider css*/
+.top-slider img{width: 90%;height: 200px;text-align: center;}
+/*活动样式*/
+.join_count{background:rgba(102, 153, 255, 1);
+color:#fff !important;
+padding: 3px 5px !important;
+font-size: 12px;
+float: right;
+border-radius: 10px;
+}
+.book_status1{
+  color:#0099FF !important; 
+  padding: 3px 10px;
+  float: right;
+}
+.book_status2{
+  color:#009900 !important;
+  padding: 3px 10px;
+  float: right;
+}
+.book_status3{
+  color:#FF0000 !important;
+  padding: 3px 10px;
+  float: right;
+}
+
+.span-status1{
+  padding: 3px 5px;border-radius: 5px;
+  margin-left: 10px;
+  color:#fff;
+  font-size: 13px;
+  font-weight: 500;
+  background:#0099FF !important; 
+}
+.span-status2{
+  padding: 3px 5px;border-radius: 5px;
+  margin-left: 10px;
+  color:#fff;
+  font-size: 13px;
+  font-weight: 500;
+  background:#009900 !important; 
+}
+.span-status3{
+  padding: 3px 5px;border-radius: 5px;
+  margin-left: 10px;
+  color:#fff;
+  font-size: 13px;
+  font-weight: 500;
+  background:#ff0000 !important; 
+}
+.act_status{
+  position: absolute;
+  top: 0px;
+  margin: 0 !important;
+  font-size: 12px;
+  line-height: 20px !important;
+  right: 10px;
+  padding: 0px 8px;
+  color: #fff !important;
+  background: #007aff;
+}
+.tag{
+  background: #fc9c15;
+  color: #fff !important;
+  clear: initial !important;
+  border-radius: 10px;
+    padding: 3px 8px;float: left; margin: 5px;
+ }
+.status2{
+  background: #007aff;
+}
+.status3{
+  background: #ff0000;
+}
+.status4{
+  background: #aaa;
+}
+.status1{
+  background: #007aff;
+}
+.c_status .filter-tab-line{width: 21%;text-align: center;}   
+.c_status .filter-tab-line.active{
+  color:#ff0000;
+  background: none;
+}
+
+/*activity detail */
+.activity .list-title{max-height: inherit;}
+.activity_detatil_body{
+  display: table;
+  background: #eee; width: 95%; margin:10px auto;border-radius: 10px;
+  padding: 10px;
+}
+.activity_detatil .btn-bottom{    width: 95%;
+  display: table;
+  margin: 10px auto;}
+.activity_detatil_body .activity_lab{background: #fff; width: 95%; margin:10px auto; border-radius: 10px;}
+.activity_detatil_body .activity_lab-title{height: 40px;line-height: 40px;font-size: 16px;font-weight: bolder; text-align: center;width: 100%;}
+.activity_detatil_body .activity_lab .mui-card-header{padding:10px 10px 0 10px;    min-width: 20px;}
+.activity_detatil_body .activity_lab .mui-card-header::after{display: none;}
+.reson{width: 95%;display:table;padding: 5px;
+  color: #ff0000;line-height: 16px;font-size: 12px;background: #eee;margin:5px auto;}
+ /*news_teacher*/
+ #news_teacher{background-color: #fff;}
+ #news_teacher li{border-radius: 0;background-color: #f8f8f8;}
+ #news_teacher li .box{float: left; margin:5px 1%;width:58%;height:150px;}
+
+ #news_teacher li .box-img{float: left;width:40% !important;max-width: 100% !important;
+height: 100% !important;
+margin-right:0 !important;
+line-height:150px !important;}
+
+ #news_teacher li .right{float: right;}
+ #news_teacher .viewcount{color: #999;font-size: 14px;}
+ /*end news_teacher*/
+
+
