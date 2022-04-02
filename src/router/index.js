@@ -6,6 +6,8 @@ import Place from '../pages/place/Place'
 import Peixun from '../pages/place/Peixun'
 import News from '../components/News'
 import Index from '../pages/index/Index'
+import Class from '../pages/class/Class'
+import Lesson from '../pages/class/Lesson'
 
 export default new VueRouter({
     routes: [
@@ -37,7 +39,14 @@ export default new VueRouter({
            {
                path: '/index',
                component: Index
+           },
+           {
+               path: '/class',
+               component: Class
+           },
+           {
+               path: '/lesson',
+               component: Lesson
            } 
-           
     ]
 })

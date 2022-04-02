@@ -16,43 +16,16 @@
         <v-tab-item>
           <v-container>
             <v-row dense>
-              <v-col cols="12">
-                <v-card color="#385F73" dark>
-                  <v-card-title class="text-h5">Unlimited music now</v-card-title>
-
-                  <v-card-subtitle>Listen to your favorite artists and albums whenever and wherever, online and offline.</v-card-subtitle>
-
-                  <v-card-actions>
-                    <v-btn text>Listen Now</v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-col>
-
               <v-col v-for="(item, i) in items" :key="i" cols="12">
                 <v-card :color="item.color" dark>
                   <div class="d-flex flex-no-wrap justify-space-between">
                     <div>
-                      <v-card-title class="text-h5" v-text="item.title"></v-card-title>
-
+                      <v-card-title class="text-h8" v-text="item.title" style="font-size:1em"></v-card-title>
                       <v-card-subtitle v-text="item.artist"></v-card-subtitle>
-
                       <v-card-actions>
-                        <v-btn
-                          v-if="item.artist === 'Ellie Goulding'"
-                          class="ml-2 mt-3"
-                          fab
-                          icon
-                          height="40px"
-                          right
-                          width="40px"
-                        >
-                          <v-icon>mdi-play</v-icon>
-                        </v-btn>
-
-                        <v-btn v-else class="ml-2 mt-5" outlined rounded small>START RADIO</v-btn>
+                        <v-btn class="ml-2 mt-5" outlined rounded small to="/class">进入课堂</v-btn>
                       </v-card-actions>
                     </div>
-
                     <v-avatar class="ma-3" size="125" tile>
                       <v-img :src="item.src"></v-img>
                     </v-avatar>
@@ -101,16 +74,16 @@ export default {
       data: ["我听的课", "我教的课"],
       items: [
         {
-          color: "#1F7087",
+          color: "#58A1EF",
           src: "https://cdn.vuetifyjs.com/images/cards/foster.jpg",
-          title: "Supermodel",
-          artist: "Foster the People"
+          title: "数学思想与数模文化",
+          artist: "李振宁"
         },
         {
-          color: "#952175",
+          color: "#BBA180",
           src: "https://cdn.vuetifyjs.com/images/cards/halcyon.png",
-          title: "Halcyon Days",
-          artist: "Ellie Goulding"
+          title: "多元统计与数据分析",
+          artist: "徐涛"
         }
       ]
     };
