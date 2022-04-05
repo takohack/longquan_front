@@ -6,7 +6,20 @@
       </v-carousel>
     </v-container>
     <v-container>
-      <div style="background-color:lightblue;height:120px"></div>
+      <div class="nav-bar">
+        <div class="nav-bar-item">
+          <img src="https://s1.ax1x.com/2022/04/05/qOf27j.png" alt />
+          <div>课程中心</div>
+        </div>
+        <div class="nav-bar-item">
+          <img src="https://s1.ax1x.com/2022/04/05/qOfWAs.png" alt />
+          <div>本周作业</div>
+        </div>
+        <div class="nav-bar-item">
+          <img src="https://s1.ax1x.com/2022/04/05/qOfgBQ.png" alt />
+          <div>我的收藏</div>
+        </div>
+      </div>
     </v-container>
     <v-container>
       <v-tabs v-model="tab">
@@ -90,3 +103,27 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.nav-bar{
+    width: 100%;
+    box-sizing: border-box;
+    height: 100px;
+}
+
+.nav-bar-item{
+    margin-left: 8vw;
+    float: left;
+}
+
+.nav-bar-item > img {
+    width: 80px;
+    height: 70px;
+}
+
+.nav-bar-item > div {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+}
+</style>
