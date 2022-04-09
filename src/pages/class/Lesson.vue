@@ -1,37 +1,27 @@
 <template>
   <div>
     <v-container>
-      <v-row justify="center">
-        <v-col cols="12" sm="8" md="6">
-          <v-card>
-            <v-toolbar color="orange lighten-1" dark>
-              <v-toolbar-title>数学思想与建模文化8</v-toolbar-title>
-            </v-toolbar>
-
-            <v-list two-line>
-              <template v-for="(item, index) in items">
-                <v-subheader v-if="item.header" :key="item.header" inset>
-                  {{
-                  item.header
-                  }}
-                </v-subheader>
-
-                <v-divider v-else-if="item.divider" :key="index" inset></v-divider>
-
-                <v-list-item v-else :key="item.title" ripple>
-                  <v-list-item-avatar>
-                    <img :src="item.avatar" />
-                  </v-list-item-avatar>
-                  <v-list-item-content>
-                    <v-list-item-title v-html="item.title"></v-list-item-title>
-                    <v-list-item-subtitle v-html="item.subtitle"></v-list-item-subtitle>
-                  </v-list-item-content>
-                </v-list-item>
-              </template>
-            </v-list>
-          </v-card>
-        </v-col>
-      </v-row>
+      <v-expansion-panels focusable multiple>
+        <v-expansion-panel v-for="(item,i) in items" :key="i">
+          <v-expansion-panel-header>{{item.header}}</v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <v-container>
+              <v-list dense>
+                <v-list-item-group v-model="item.data" color="primary">
+                  <v-list-item v-for="(todo,i) in item.content " :key="i">
+                    <v-list-item-action>
+                      <v-icon>{{item.icon}}</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                      <v-list-item-title @click="test(todo)">{{ todo }}</v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-list-item-group>
+              </v-list>
+            </v-container>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </v-expansion-panels>
     </v-container>
   </div>
 </template>
@@ -42,38 +32,36 @@ export default {
     return {
       items: [
         {
-          header: "课件资料"
-        },
-        { divider: true },
-        {
-          avatar: "https://picsum.photos/250/300?image=660",
-          title: "高等代数",
-          subtitle: `<a href="chrome-extension://cdonnmffkdaoajfknoeeecmchibpmkmg/assets/pdf/web/viewer.html?file=http%3A%2F%2Fcslibrary.stanford.edu%2F103%2FLinkedListBasics.pdf" target="_blank">高等数学第四版</a>`
+          data: 1,
+          header: "课堂练习",
+          icon: "mdi-message-text",
+          content: ["书p123页习题1.2.3", "书xxp123习题5",]
         },
         {
-          avatar: "https://picsum.photos/250/300?image=821",
-          title: '数学分析',
-          subtitle:
-            '<span class="font-weight-bold">to Operations support</span> &mdash; Wish I could come.'
+          data: 1,
+          header: "课堂资料",
+          icon: "mdi-cloud-upload",
+          content: ["高等代数.pdf", "ch03.ppt"]
         },
         {
-          avatar: "https://picsum.photos/250/300?image=783",
-          title: "图像处理",
-          subtitle:
-            '<span class="font-weight-bold">Bella</span> &mdash; Do you have Paris recommendations'
-        },
-        {
-          header: "作业"
-        },
-        { divider: true },
-        {
-          avatar: "https://picsum.photos/250/300?image=1006",
-          title: "书面作业",
-          subtitle:
-            '完成书p64页 1.2.3.4'
+          data: 1,
+          header: "课后作业",
+          icon: "mdi-message-text",
+          content: ["书p234习题1.3"]
         }
       ]
     };
+  },
+  methods: {
+    test:function(value) {
+      let myMap = new Map();
+
+      myMap.set("高等代数.pdf","https://www.jiangnan.edu.cn/")
+
+      let url = myMap.get(value);
+      console.log(url);
+      window.open(url,"_blank");
+    },
   }
 };
 </script>
