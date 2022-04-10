@@ -9,7 +9,7 @@
       <div class="nav-bar">
         <div class="nav-bar-item">
           <img src="https://s1.ax1x.com/2022/04/05/qOf27j.png" alt />
-          <div>课程中心</div>
+          <div @click="test">课程中心</div>
         </div>
         <div class="nav-bar-item">
           <img src="https://s1.ax1x.com/2022/04/05/qOfWAs.png" alt />
@@ -29,18 +29,22 @@
         <v-tab-item>
           <v-container>
             <v-row dense>
-              <v-col v-for="(item, i) in items" :key="i" cols="12">
-                <v-card :color="item.color" dark>
+              <v-col v-for="(course, i) in courses" :key="i" cols="12">
+                <v-card :color="course.fields.color" dark>
                   <div class="d-flex flex-no-wrap justify-space-between">
                     <div>
-                      <v-card-title class="text-h8" v-text="item.title" style="font-size:1em"></v-card-title>
-                      <v-card-subtitle v-text="item.artist"></v-card-subtitle>
+                      <v-card-title
+                        class="text-h8"
+                        v-text="course.fields.courseName"
+                        style="font-size:1em"
+                      ></v-card-title>
+                      <v-card-subtitle v-text="course.fields.teacherName"></v-card-subtitle>
                       <v-card-actions>
-                        <v-btn class="ml-2 mt-5" outlined rounded small to="/class">进入课堂</v-btn>
+                        <v-btn class="ml-2 mt-5" outlined rounded small @click="routerTo(course)">进入课堂</v-btn>
                       </v-card-actions>
                     </div>
                     <v-avatar class="ma-3" size="125" tile>
-                      <v-img :src="item.src"></v-img>
+                      <v-img :src="course.fields.courseImg"></v-img>
                     </v-avatar>
                   </div>
                 </v-card>
@@ -68,6 +72,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   components: {},
   data() {
@@ -98,32 +103,67 @@ export default {
           title: "多元统计与数据分析",
           artist: "徐涛"
         }
-      ]
+      ],
+      courses: [],
     };
-  }
+  },
+  created(){
+      this.request();
+  },
+  methods: {
+    test() {
+      console.log(this.courses);
+    },
+    request(){
+      axios.get(`http://localhost:8080/courses/getcourses`).then(
+        response => {
+          let randcl = ['#58A1EF','#BBA180','#BBA180']
+          let res = ''
+          res = response.data.courses
+          let courses = eval(res);
+          //console.log(courses);
+          for( var i = 0,len = courses.length;i<len;i++){
+            let color_index = Math.floor(Math.random()*(randcl.length))
+            courses[i].fields.color = randcl[color_index]
+            // console.log(courses[i].fields.color);
+            // console.log(courses[i].fields.courseName);
+          }
+          console.log(courses);
+          this.courses = courses;
+        }
+      ).catch(function (error){
+        console.log(error);
+      })
+    },
+    routerTo(item){
+      let course_name = item.fields.courseName;
+      this.$router.push({path: '/course',query: {course: course_name}}); 
+    }
+  },
+
 };
 </script>
 
 <style scoped>
-.nav-bar{
-    width: 100%;
-    box-sizing: border-box;
-    height: 100px;
+.nav-bar {
+  width: 100%;
+  box-sizing: border-box;
+  height: 100px;
 }
 
-.nav-bar-item{
-    margin-left: 8vw;
-    float: left;
+.nav-bar-item {
+  margin-left: 8vw;
+  float: left;
 }
 
 .nav-bar-item > img {
-    width: 80px;
-    height: 70px;
+  width: 80px;
+  height: 70px;
 }
 
 .nav-bar-item > div {
-    text-align: center;
-    font-size: 16px;
-    font-weight: bold;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
 }
 </style>

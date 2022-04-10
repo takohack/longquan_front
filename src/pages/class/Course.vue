@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-container>
-      <h3>多元统计与数值分析</h3>
+      <h3>{{course_title}}</h3>
       <v-divider></v-divider>
       <v-container>
         <div>
@@ -30,7 +30,7 @@
                 <v-card :color="year.color" dark>
                   <v-card-title style="font-size:1rem;line-height:1.1rem">{{year.lesson}}</v-card-title>
                   <v-card-text class="white text--primary">
-                    <v-btn :color="year.color" class="mx-0" outlined to="/lesson">课堂详情</v-btn>
+                    <v-btn :color="year.color" class="mx-0" outlined @click="routerTo(year)">课堂详情</v-btn>
                   </v-card-text>
                 </v-card>
               </v-timeline-item>
@@ -76,8 +76,9 @@
 <script>
 export default {
   methods: {
-    enter() {
-      this.$router.push("/lesson");
+    routerTo(item){
+      let lesson_name = item.lesson;
+      this.$router.push({path: '/lesson',query: {lesson: lesson_name}}); 
     }
   },
   data() {
@@ -113,6 +114,11 @@ export default {
         }
       ]
     };
+  },
+  computed: {
+    course_title: function() {
+      return this.$route.query.course;
+    }
   }
 };
 </script>
