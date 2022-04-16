@@ -90,20 +90,6 @@ export default {
       ],
       tab: null,
       data: ["我听的课", "我教的课"],
-      items: [
-        {
-          color: "#58A1EF",
-          src: "https://cdn.vuetifyjs.com/images/cards/foster.jpg",
-          title: "数学思想与数模文化",
-          artist: "李振宁"
-        },
-        {
-          color: "#BBA180",
-          src: "https://cdn.vuetifyjs.com/images/cards/halcyon.png",
-          title: "多元统计与数据分析",
-          artist: "徐涛"
-        }
-      ],
       courses: [],
     };
   },

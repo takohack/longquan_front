@@ -71,7 +71,7 @@ export default {
   data: () => ({
     drawer: false,
     items: [
-      { title: "青少年宫", icon: "mdi-account-group-outline", link: "/place" },
+      { title: "首页", icon: "mdi-account-group-outline", link: "/index" },
       { title: "青年之家", icon: "mdi-account", link: "/teenhome" },
       {
         title: "青少年活动中心",

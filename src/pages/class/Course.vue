@@ -6,10 +6,10 @@
       <v-container>
         <div>
           <v-alert type="warning">
-            <strong>公告:</strong>
+            <strong>公告: </strong>{{ newest_notice }}
           </v-alert>
           <v-alert type="info">
-            <strong>本周作业</strong>: 1.完成书上习题2.xxxxxxxxxxxxxxxxxxxx
+            <strong>本周作业</strong>: {{ newest_homework }}
           </v-alert>
         </div>
       </v-container>
@@ -23,14 +23,14 @@
         <v-tabs-items v-model="tab">
           <v-tab-item>
             <v-timeline>
-              <v-timeline-item v-for="(year, i) in years" :key="i" :color="year.color" small>
+              <v-timeline-item v-for="(chapter, i) in chapters" :key="i" color="cyan" small>
                 <template v-slot:opposite>
-                  <span :class="`headline font-weight-bold ${year.color}--text`" v-text="year.year"></span>
+                  <span :class="`headline font-weight-bold cyan--text`" v-text="chapter.date"></span>
                 </template>
-                <v-card :color="year.color" dark>
-                  <v-card-title style="font-size:1rem;line-height:1.1rem">{{year.lesson}}</v-card-title>
+                <v-card color="cyan" dark>
+                  <v-card-title style="font-size:1rem;line-height:1.1rem">{{chapter.chapter}}</v-card-title>
                   <v-card-text class="white text--primary">
-                    <v-btn :color="year.color" class="mx-0" outlined @click="routerTo(year)">课堂详情</v-btn>
+                    <v-btn color="cyan" class="mx-0" outlined @click="routerTo(chapter)">课堂详情</v-btn>
                   </v-card-text>
                 </v-card>
               </v-timeline-item>
@@ -63,9 +63,11 @@
           </v-tab-item>
           <!-- 公告 -->
           <v-tab-item>
-            <v-alert type="warning">
-              <strong>公告:</strong>
+            <v-container v-for="(notice,i) in notices" :key="i">
+              <v-alert type="warning">
+              <strong>{{notice.notice}}</strong>
             </v-alert>
+            </v-container>
           </v-tab-item>
         </v-tabs-items>
       </v-container>
@@ -74,18 +76,79 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
+  created(){
+      this.request();
+  },
   methods: {
-    routerTo(item){
-      let lesson_name = item.lesson;
+    routerTo(chapter){
+      let lesson_name = chapter.chapter;
       this.$router.push({path: '/lesson',query: {lesson: lesson_name}}); 
+    },
+    request() {
+      axios.get(`http://localhost:8080/courses/getcoursesinfo`).then(
+        response => {
+          let rest_data = eval(response.data.coursesinfo)
+          for (let i =0,len = rest_data.length; i< len;i++){
+                let data_name = rest_data[i].fields.courseName;
+                if (data_name === this.course_title ){
+                    let chapter_str = rest_data[i].fields.coursechapters
+                    let notice_str = rest_data[i].fields.coursenotice
+                    let homework_str = rest_data[i].fields.coursehomework
+                    this.chapters = JSON.parse(chapter_str)
+                    this.notices = JSON.parse(notice_str)
+                    this.homeworks = JSON.parse(homework_str)
+                    let array_chapters = [];
+                    let array_notices = [];
+                    let array_homeworks = [];
+                    for (let key in this.chapters){
+                      let item = {
+                        date : key,
+                        chapter : this.chapters[key]
+                      }
+                      array_chapters.push(item);
+                    }
+                    this.chapters = array_chapters;
+                    for (let key in this.notices){
+                      let item = {
+                        id : key,
+                        notice : this.notices[key]
+                      }
+                      array_notices.push(item);
+                    }
+                    this.notices = array_notices;
+                    this.newest_notice = this.notices[this.notices.length - 1].notice
+                    for (let key in this.homeworks){
+                      let item = {
+                        week : key,
+                        homework : this.homeworks[key]
+                      }
+                      array_homeworks.push(item);
+                    }
+                    this.homeworks = array_homeworks;
+                    this.newest_homework = this.homeworks[this.homeworks.length - 1].homework
+                }
+          }
+          // console.log("================");
+          // console.log(this.chapters);
+          // console.log(this.notices);
+          // console.log(this.homeworks);
+        }
+      ).catch(function (error){
+        console.log(error);
+      })
     }
   },
   data() {
     return {
-      title: "多元统计与数值分析",
+      chapters: [],
+      notices: [],
+      homeworks: [],
+      newest_homework: null,
+      newest_notice: null,  
       tab: null,
-      data: ["课堂", "讨论", "通知"],
+      data: ["课堂", "讨论", "通知",],
       years: [
         {
           color: "cyan",
@@ -118,7 +181,17 @@ export default {
   computed: {
     course_title: function() {
       return this.$route.query.course;
-    }
+    },
+    // newest_notice() {
+    //   let len = this.notices.length
+    //   // return this.notices[len -1 ].notice
+    //   return len
+    // },
+    // newest_homework(){
+    //   let len = this.homeworks.length
+    //   // return this.homeworks[len -1 ].homework
+    //   return this.homeworks[len -1 ].homework
+    // }
   }
 };
 </script>
