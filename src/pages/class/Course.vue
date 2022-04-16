@@ -84,7 +84,8 @@ export default {
   methods: {
     routerTo(chapter){
       let lesson_name = chapter.chapter;
-      this.$router.push({path: '/lesson',query: {lesson: lesson_name}}); 
+      let course_title = this.course_title;
+      this.$router.push({path: '/lesson',query: {lesson: lesson_name,course: course_title}}); 
     },
     request() {
       axios.get(`http://localhost:8080/courses/getcoursesinfo`).then(

@@ -24,6 +24,33 @@
     <v-container>
       <v-tabs v-model="tab">
         <v-tab v-for="item in data" :key="item">{{ item }}</v-tab>
+        <!-- <v-menu bottom left>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn color="primary" dark class="align-self-center mr-4" v-bind="attrs" v-on="on">
+              添加课程
+            </v-btn>
+          </template>
+        </v-menu>-->
+        <div class="text-center">
+          <v-dialog v-model="dialog" width="500">
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn color="primary" dark v-bind="attrs" v-on="on">添加课程</v-btn>
+            </template>
+
+            <v-card>
+              <v-card-title class="text-h5 grey lighten-2">Privacy Policy</v-card-title>
+
+              <v-card-text>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</v-card-text>
+
+              <v-divider></v-divider>
+
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="primary" text @click="dialog = false">I accept</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </div>
       </v-tabs>
       <v-tabs-items v-model="tab">
         <v-tab-item>
@@ -40,7 +67,13 @@
                       ></v-card-title>
                       <v-card-subtitle v-text="course.fields.teacherName"></v-card-subtitle>
                       <v-card-actions>
-                        <v-btn class="ml-2 mt-5" outlined rounded small @click="routerTo(course)">进入课堂</v-btn>
+                        <v-btn
+                          class="ml-2 mt-5"
+                          outlined
+                          rounded
+                          small
+                          @click="routerTo(course)"
+                        >进入课堂</v-btn>
                       </v-card-actions>
                     </div>
                     <v-avatar class="ma-3" size="125" tile>
@@ -72,11 +105,12 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 export default {
   components: {},
   data() {
     return {
+      dialog: false,
       tops: [
         {
           src: "https://s1.ax1x.com/2022/03/21/qmxotO.jpg"
@@ -90,43 +124,43 @@ export default {
       ],
       tab: null,
       data: ["我听的课", "我教的课"],
-      courses: [],
+      courses: []
     };
   },
-  created(){
-      this.request();
+  created() {
+    this.request();
   },
   methods: {
     test() {
       console.log(this.courses);
     },
-    request(){
-      axios.get(`http://localhost:8080/courses/getcourses`).then(
-        response => {
-          let randcl = ['#58A1EF','#BBA180','#BBA180']
-          let res = ''
-          res = response.data.courses
+    request() {
+      axios
+        .get(`http://localhost:8080/courses/getcourses`)
+        .then(response => {
+          let randcl = ["#58A1EF", "#BBA180", "#BBA180"];
+          let res = "";
+          res = response.data.courses;
           let courses = eval(res);
           //console.log(courses);
-          for( var i = 0,len = courses.length;i<len;i++){
-            let color_index = Math.floor(Math.random()*(randcl.length))
-            courses[i].fields.color = randcl[color_index]
+          for (var i = 0, len = courses.length; i < len; i++) {
+            let color_index = Math.floor(Math.random() * randcl.length);
+            courses[i].fields.color = randcl[color_index];
             // console.log(courses[i].fields.color);
             // console.log(courses[i].fields.courseName);
           }
           console.log(courses);
           this.courses = courses;
-        }
-      ).catch(function (error){
-        console.log(error);
-      })
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     },
-    routerTo(item){
+    routerTo(item) {
       let course_name = item.fields.courseName;
-      this.$router.push({path: '/course',query: {course: course_name}}); 
+      this.$router.push({ path: "/course", query: { course: course_name } });
     }
-  },
-
+  }
 };
 </script>
 
