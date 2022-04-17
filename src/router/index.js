@@ -4,6 +4,7 @@ import VueRouter from "vue-router";
 import Index from '../pages/index/Index'
 import Course from '../pages/class/Course'
 import Lesson from '../pages/class/Lesson'
+import Profile from '../pages/personal/Profile'
 
 export default new VueRouter({
     routes: [
@@ -22,6 +23,10 @@ export default new VueRouter({
            {
                path: '/lesson',
                component: Lesson
+           },
+           {
+               path: '/profile',
+               component: Profile
            } 
     ]
 })
