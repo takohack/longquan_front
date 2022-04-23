@@ -5,6 +5,7 @@ import Index from '../pages/index/Index'
 import Course from '../pages/class/Course'
 import Lesson from '../pages/class/Lesson'
 import Profile from '../pages/personal/Profile'
+import Discuss from '../pages/class/Discuss'
 
 export default new VueRouter({
     routes: [
@@ -27,6 +28,10 @@ export default new VueRouter({
            {
                path: '/profile',
                component: Profile
+           },
+           {
+               path: '/discuss',
+               component: Discuss
            } 
     ]
 })

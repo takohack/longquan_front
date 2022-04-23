@@ -12,15 +12,15 @@
             <v-text-field
               label="学号"
               type="text"
-              v-model="username"
+              v-model="formusername"
             ></v-text-field>
             <v-text-field
               label="密码"
               type="password"
-              v-model="password"
+              v-model="formpassword"
             ></v-text-field>
             <span class="text-caption grey--text text--darken-1">
-              请输入学号和密码
+              {{notice}}
             </span>
           </v-card-text>
           <v-divider></v-divider>
@@ -45,14 +45,14 @@
       <v-list v-if="is_login == true">
         <v-list-item>
           <v-list-item-avatar>
-            <v-img src="https://cdn.vuetifyjs.com/images/john.png"></v-img>
+            <v-img :src="user_photo"></v-img>
           </v-list-item-avatar>
         </v-list-item>
 
         <v-list-item link>
           <v-list-item-content>
-            <v-list-item-title class="text-h6">轴承昊</v-list-item-title>
-            <v-list-item-subtitle>1131180229</v-list-item-subtitle>
+            <v-list-item-title class="text-h6">{{username}}</v-list-item-title>
+            <v-list-item-subtitle>{{userid}}</v-list-item-subtitle>
           </v-list-item-content>
 
           <v-list-item-action>
@@ -134,19 +134,20 @@ export default {
       this.dialog = true;
     },
     login() {
-      console.log("登录");
       axios
         .get(
-          `http://localhost:8080/user/login?username=${this.username}&password=${this.password}`
+          `http://localhost:8080/user/login?username=${this.formusername}&password=${this.formpassword}`
         )
         .then(
           (response) => {
             if (response.data.result === "success") {
               console.log("success");
               this.is_login = true;
-              this.$router.push("/index");
-              this.$router.go(0);
+              this.request();
+              // this.$router.push("/index");
+              // this.$router.go(0);
             } else {
+              this.notice = response.data.result
               console.log(response.data);
             }
           },
@@ -160,9 +161,16 @@ export default {
         (response) => {
           if (response.data.result === "success") {
             console.log("success");
+            console.log(response.data);
+            this.username = response.data.username
+            this.userid = response.data.userid
+            this.choose_Lesson = response.data.lesson
+            this.user_photo = response.data.photo
             this.is_login = true;
+            this.dialog = false;
           } else {
             console.log(response.data);
+            this.dialog = false;
           }
         },
         (error) => {
@@ -176,27 +184,39 @@ export default {
         this.logout();
       }
       else if (param == "个人中心"){
-        this.$router.push('profile')
+        let current = this.$route.path;
+        if (current === '/profile'){
+          console.log("已在此页面 不用跳转");
+        }
+        else {
+          this.$router.push('profile')
+        }
       }
     },
     logout(){
       axios.get(`http://localhost:8080/user/logout`).then(
                     response => {
                         if (response.data.result === "success") {
-                            this.$router.push('/index')
-                            this.$router.go(0)
+                            // this.$router.push('/index')
+                            // this.$router.go(0)
+                            this.is_login = false;
                         }
                     },
                     error => {
                         console.log('请求失败', error.message);
-
                     }
                 )
     }
   },
 
   data: () => ({
+    formusername: "",
+    formpassword: "",
     username: "test",
+    userid: "",
+    notice: "",
+    choose_Lesson: "",
+    user_photo: "",
     password: "Bdy405488",
     is_login: false,
     dialog: false,
@@ -210,7 +230,7 @@ export default {
         icon: "mdi-home-city",
         link: "/activitycenter",
       },
-      { title: "TODO", icon: "mdi-help-box" },
+      { title: "个人中心", icon: "mdi-account-circle-outline", link: "/profile" },
     ],
   }),
   computed: {
