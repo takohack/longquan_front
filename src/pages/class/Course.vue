@@ -1,7 +1,15 @@
 <template>
   <div>
     <v-container>
-      <h3>{{course_title}}</h3>
+      <v-container>
+        <video-player
+          class="video-player vjs-custom-skin"
+          ref="videoPlayer"
+          :playsinline="true"
+          :options="playerOptions"
+        ></video-player>
+      </v-container>
+      <h3>{{ course_title }}</h3>
       <v-divider></v-divider>
       <v-container>
         <div>
@@ -23,14 +31,30 @@
         <v-tabs-items v-model="tab">
           <v-tab-item>
             <v-timeline>
-              <v-timeline-item v-for="(chapter, i) in chapters" :key="i" color="cyan" small>
+              <v-timeline-item
+                v-for="(chapter, i) in chapters"
+                :key="i"
+                color="cyan"
+                small
+              >
                 <template v-slot:opposite>
-                  <span :class="`headline font-weight-bold cyan--text`" v-text="chapter.date"></span>
+                  <span
+                    :class="`headline font-weight-bold cyan--text`"
+                    v-text="chapter.date"
+                  ></span>
                 </template>
                 <v-card color="cyan" dark>
-                  <v-card-title style="font-size:1rem;line-height:1.1rem">{{chapter.chapter}}</v-card-title>
+                  <v-card-title style="font-size: 1rem; line-height: 1.1rem">{{
+                    chapter.chapter
+                  }}</v-card-title>
                   <v-card-text class="white text--primary">
-                    <v-btn color="cyan" class="mx-0" outlined @click="routerTo(chapter)">课堂详情</v-btn>
+                    <v-btn
+                      color="cyan"
+                      class="mx-0"
+                      outlined
+                      @click="routerTo(chapter)"
+                      >课堂详情</v-btn
+                    >
                   </v-card-text>
                 </v-card>
               </v-timeline-item>
@@ -38,7 +62,7 @@
           </v-tab-item>
           <!-- 讨论 -->
           <v-tab-item>
-            <v-container v-for="(year,i) in years" :key="i">
+            <!-- <v-container v-for="(year,i) in years" :key="i">
               <div class="info-box">
                 <div class="info-box-left">
                   <img
@@ -59,14 +83,17 @@
                 </div>
               </div>
               <v-divider></v-divider>
+            </v-container> -->
+            <v-container>
+              <ArticleComment></ArticleComment>
             </v-container>
           </v-tab-item>
           <!-- 公告 -->
           <v-tab-item>
-            <v-container v-for="(notice,i) in notices" :key="i">
+            <v-container v-for="(notice, i) in notices" :key="i">
               <v-alert type="warning">
-              <strong>{{notice.notice}}</strong>
-            </v-alert>
+                <strong>{{ notice.notice }}</strong>
+              </v-alert>
             </v-container>
           </v-tab-item>
         </v-tabs-items>
@@ -76,111 +103,134 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
+import ArticleComment from "./Discuss.vue";
 export default {
-  created(){
-      this.request();
+  components: {
+    ArticleComment,
+  },
+  created() {
+    this.request();
   },
   methods: {
-    routerTo(chapter){
+    routerTo(chapter) {
       let lesson_name = chapter.chapter;
       let course_title = this.course_title;
-      this.$router.push({path: '/lesson',query: {lesson: lesson_name,course: course_title}}); 
+      this.$router.push({
+        path: "/lesson",
+        query: { lesson: lesson_name, course: course_title },
+      });
     },
     request() {
-      axios.get(`http://localhost:8080/courses/getcoursesinfo`).then(
-        response => {
-          let rest_data = eval(response.data.coursesinfo)
-          for (let i =0,len = rest_data.length; i< len;i++){
-                let data_name = rest_data[i].fields.courseName;
-                if (data_name === this.course_title ){
-                    let chapter_str = rest_data[i].fields.coursechapters
-                    let notice_str = rest_data[i].fields.coursenotice
-                    let homework_str = rest_data[i].fields.coursehomework
-                    this.chapters = JSON.parse(chapter_str)
-                    this.notices = JSON.parse(notice_str)
-                    this.homeworks = JSON.parse(homework_str)
-                    let array_chapters = [];
-                    let array_notices = [];
-                    let array_homeworks = [];
-                    for (let key in this.chapters){
-                      let item = {
-                        date : key,
-                        chapter : this.chapters[key]
-                      }
-                      array_chapters.push(item);
-                    }
-                    this.chapters = array_chapters;
-                    for (let key in this.notices){
-                      let item = {
-                        id : key,
-                        notice : this.notices[key]
-                      }
-                      array_notices.push(item);
-                    }
-                    this.notices = array_notices;
-                    this.newest_notice = this.notices[this.notices.length - 1].notice
-                    for (let key in this.homeworks){
-                      let item = {
-                        week : key,
-                        homework : this.homeworks[key]
-                      }
-                      array_homeworks.push(item);
-                    }
-                    this.homeworks = array_homeworks;
-                    this.newest_homework = this.homeworks[this.homeworks.length - 1].homework
-                }
+      axios
+        .get(`http://localhost:8080/courses/getcoursesinfo`)
+        .then((response) => {
+          let rest_data = eval(response.data.coursesinfo);
+          for (let i = 0, len = rest_data.length; i < len; i++) {
+            let data_name = rest_data[i].fields.courseName;
+            if (data_name === this.course_title) {
+              let chapter_str = rest_data[i].fields.coursechapters;
+              let notice_str = rest_data[i].fields.coursenotice;
+              let homework_str = rest_data[i].fields.coursehomework;
+              this.chapters = JSON.parse(chapter_str);
+              this.notices = JSON.parse(notice_str);
+              this.homeworks = JSON.parse(homework_str);
+              let array_chapters = [];
+              let array_notices = [];
+              let array_homeworks = [];
+              for (let key in this.chapters) {
+                let item = {
+                  date: key,
+                  chapter: this.chapters[key],
+                };
+                array_chapters.push(item);
+              }
+              this.chapters = array_chapters;
+              for (let key in this.notices) {
+                let item = {
+                  id: key,
+                  notice: this.notices[key],
+                };
+                array_notices.push(item);
+              }
+              this.notices = array_notices;
+              this.newest_notice = this.notices[this.notices.length - 1].notice;
+              for (let key in this.homeworks) {
+                let item = {
+                  week: key,
+                  homework: this.homeworks[key],
+                };
+                array_homeworks.push(item);
+              }
+              this.homeworks = array_homeworks;
+              this.newest_homework =
+                this.homeworks[this.homeworks.length - 1].homework;
+            }
           }
           // console.log("================");
           // console.log(this.chapters);
           // console.log(this.notices);
           // console.log(this.homeworks);
-        }
-      ).catch(function (error){
-        console.log(error);
-      })
-    }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
   },
   data() {
     return {
+      playerOptions: {
+        width: '350px',
+        height: '160px',
+        muted: true,
+        language: "en",
+        playbackRates: [0.7, 1.0, 1.5, 2.0],
+        sources: [
+          {
+            type: "video/mp4",
+            src: "http://vjs.zencdn.net/v/oceans.mp4",
+          },
+        ],
+        poster: "https://s1.ax1x.com/2022/04/10/LkWSUI.png",
+      },
       chapters: [],
       notices: [],
       homeworks: [],
       newest_homework: null,
-      newest_notice: null,  
+      newest_notice: null,
       tab: null,
-      data: ["课堂", "讨论", "通知",],
+      data: ["课堂", "讨论", "通知"],
       years: [
         {
           color: "cyan",
           year: "4月25日",
-          lesson: "第六章:差分方程"
+          lesson: "第六章:差分方程",
         },
         {
           color: "green",
           year: "4月14日",
-          lesson: "第五章:复习"
+          lesson: "第五章:复习",
         },
         {
           color: "pink",
           year: "4月13日",
-          lesson: "第四章:稳定性与定性理论初步"
+          lesson: "第四章:稳定性与定性理论初步",
         },
         {
           color: "amber",
           year: "4月07日",
-          lesson: "第三章:线性微分方程组"
+          lesson: "第三章:线性微分方程组",
         },
         {
           color: "orange",
           year: "4月06日",
-          lesson: "第二章:线性微分方程"
-        }
-      ]
+          lesson: "第二章:线性微分方程",
+        },
+      ],
     };
   },
   computed: {
-    course_title: function() {
+    course_title: function () {
       return this.$route.query.course;
     },
     // newest_notice() {
@@ -193,7 +243,7 @@ export default {
     //   // return this.homeworks[len -1 ].homework
     //   return this.homeworks[len -1 ].homework
     // }
-  }
+  },
 };
 </script>
 
@@ -272,4 +322,5 @@ export default {
   font-size: 14px;
   color: #333333;
 }
+
 </style>

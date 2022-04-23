@@ -32,6 +32,6 @@ export default new VueRouter({
            {
                path: '/discuss',
                component: Discuss
-           } 
+           },
     ]
 })
