@@ -6,6 +6,7 @@ import Course from '../pages/class/Course'
 import Lesson from '../pages/class/Lesson'
 import Profile from '../pages/personal/Profile'
 import Discuss from '../pages/class/Discuss'
+import Display from '../pages/class/Display'
 
 export default new VueRouter({
     routes: [
@@ -32,6 +33,10 @@ export default new VueRouter({
            {
                path: '/discuss',
                component: Discuss
+           },
+           {
+               path: '/list',
+               component: Display
            },
     ]
 })

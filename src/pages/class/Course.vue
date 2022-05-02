@@ -233,16 +233,6 @@ export default {
     course_title: function () {
       return this.$route.query.course;
     },
-    // newest_notice() {
-    //   let len = this.notices.length
-    //   // return this.notices[len -1 ].notice
-    //   return len
-    // },
-    // newest_homework(){
-    //   let len = this.homeworks.length
-    //   // return this.homeworks[len -1 ].homework
-    //   return this.homeworks[len -1 ].homework
-    // }
   },
 };
 </script>

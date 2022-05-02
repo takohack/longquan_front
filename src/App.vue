@@ -96,20 +96,18 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar color="deep-purple accent-4" dark app>
+    <v-app-bar dark app>
       <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
-
-      <v-toolbar-title>{{ current_title }}</v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn icon>
-        <v-icon>mdi-magnify</v-icon>
-      </v-btn>
+      <v-toolbar-title>
+        <v-icon class="mx-3">mdi-weather-lightning</v-icon>
+        <template>{{ current_title }}</template>
+      </v-toolbar-title>
     </v-app-bar>
 
-    <v-main>
+    <v-main app>
       <!-- 给应用提供合适的间距 -->
       <v-container fluid class="ma-0 pa-0">
-        <router-view></router-view>
+        <router-view :choose_Lesson="choose_Lesson"></router-view>
       </v-container>
     </v-main>
   </v-app>
@@ -224,7 +222,7 @@ export default {
     more: ["个人中心", "退出"],
     items: [
       { title: "首页", icon: "mdi-account-group-outline", link: "/index" },
-      { title: "课程中心", icon: "mdi-account", link: "/teenhome" },
+      { title: "课程中心", icon: "mdi-account", link: "/list" },
       {
         title: "学习日历",
         icon: "mdi-home-city",

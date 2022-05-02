@@ -223,6 +223,19 @@ export default {
     };
   },
   directives: { clickoutside },
+  computed: {
+    course_title: function () {
+      return this.$route.query.course;
+    },
+    course_id: function (){
+      let map = new Map();
+      map.set("数据结构",3);
+      map.set("数学思想与数模文化",1);
+      map.set("多元统计与数学分析",2);
+      map.set("高等代数",4);
+      return map
+    }
+  },
   methods: {
     request() {
       axios.get(`http://localhost:8080/user/getinfo`).then(
@@ -244,12 +257,16 @@ export default {
           console.log("请求失败", error.message);
         }
       );
-      axios.get(`http://localhost:8080/getcomments`).then(
+      let course_title = this.course_title;
+      let course_id = this.course_id.get(course_title);
+      //console.log(course_id);
+      axios.get(`http://localhost:8080/getcomments?courseid=${course_id}`).then(
         (response) => {
           if (response.data.result !== "fail") {
             let str_comments = response.data.result
             let comments = JSON.parse(str_comments);
             this.comments = comments;
+            // console.log(str_comments);
 
           } else {
             console.log(response.data);
@@ -293,9 +310,11 @@ export default {
     },
     update() {
       let str_comments = JSON.stringify(this.comments);
+      let course_title = this.course_title;
+      let course_id = this.course_id.get(course_title);
       axios
         .get(
-          `http://localhost:8080/updatecomments?comments=${str_comments}`
+          `http://localhost:8080/updatecomments?comments=${str_comments}&courseid=${course_id}`
         )
         .then(
           (response) => {
@@ -344,8 +363,6 @@ export default {
           message: "评论不能为空",
         });
       } else {
-        console.log("-------------------");
-        console.log(i);
         let a = {};
         let timeNow = new Date().getTime();
         let time = this.dateStr(timeNow);

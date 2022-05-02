@@ -2,7 +2,11 @@
   <div>
     <v-container>
       <v-carousel height="auto" hide-delimiters>
-        <v-carousel-item v-for="(top,i) in tops" :key="i" :src="top.src"></v-carousel-item>
+        <v-carousel-item
+          v-for="(top, i) in tops"
+          :key="i"
+          :src="top.src"
+        ></v-carousel-item>
       </v-carousel>
     </v-container>
     <v-container>
@@ -34,19 +38,34 @@
         <div class="text-center">
           <v-dialog v-model="dialog" width="500">
             <template v-slot:activator="{ on, attrs }">
-              <v-btn color="primary" dark v-bind="attrs" v-on="on">添加课程</v-btn>
+              <v-btn color="primary" dark v-bind="attrs" v-on="on"
+                >添加课程</v-btn
+              >
             </template>
 
             <v-card>
-              <v-card-title class="text-h5 grey lighten-2">Privacy Policy</v-card-title>
+              <v-card-title class="text-h5 grey lighten-2"
+                >Privacy Policy</v-card-title
+              >
 
-              <v-card-text>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</v-card-text>
+              <v-card-text
+                >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                sunt in culpa qui officia deserunt mollit anim id est
+                laborum.</v-card-text
+              >
 
               <v-divider></v-divider>
 
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="primary" text @click="dialog = false">I accept</v-btn>
+                <v-btn color="primary" text @click="dialog = false"
+                  >I accept</v-btn
+                >
               </v-card-actions>
             </v-card>
           </v-dialog>
@@ -63,9 +82,11 @@
                       <v-card-title
                         class="text-h8"
                         v-text="course.fields.courseName"
-                        style="font-size:1em"
+                        style="font-size: 1em"
                       ></v-card-title>
-                      <v-card-subtitle v-text="course.fields.teacherName"></v-card-subtitle>
+                      <v-card-subtitle
+                        v-text="course.fields.teacherName"
+                      ></v-card-subtitle>
                       <v-card-actions>
                         <v-btn
                           class="ml-2 mt-5"
@@ -73,7 +94,8 @@
                           rounded
                           small
                           @click="routerTo(course)"
-                        >进入课堂</v-btn>
+                          >进入课堂</v-btn
+                        >
                       </v-card-actions>
                     </div>
                     <v-avatar class="ma-3" size="125" tile>
@@ -89,13 +111,25 @@
           <v-card flat>
             <v-card-title class="text-h5">An awesome title</v-card-title>
             <v-card-text>
-              <p>Duis lobortis massa imperdiet quam. Donec vitae orci sed dolor rutrum auctor. Vestibulum facilisis, purus nec pulvinar iaculis, ligula mi congue nunc, vitae euismod ligula urna in dolor. Praesent congue erat at massa.</p>
+              <p>
+                Duis lobortis massa imperdiet quam. Donec vitae orci sed dolor
+                rutrum auctor. Vestibulum facilisis, purus nec pulvinar iaculis,
+                ligula mi congue nunc, vitae euismod ligula urna in dolor.
+                Praesent congue erat at massa.
+              </p>
 
-              <p>Aenean posuere, tortor sed cursus feugiat, nunc augue blandit nunc, eu sollicitudin urna dolor sagittis lacus. Pellentesque egestas, neque sit amet convallis pulvinar, justo nulla eleifend augue, ac auctor orci leo non est. Etiam sit amet orci eget eros faucibus tincidunt. Donec sodales sagittis magna.</p>
+              <p>
+                Aenean posuere, tortor sed cursus feugiat, nunc augue blandit
+                nunc, eu sollicitudin urna dolor sagittis lacus. Pellentesque
+                egestas, neque sit amet convallis pulvinar, justo nulla eleifend
+                augue, ac auctor orci leo non est. Etiam sit amet orci eget eros
+                faucibus tincidunt. Donec sodales sagittis magna.
+              </p>
 
-              <p
-                class="mb-0"
-              >Ut leo. Suspendisse potenti. Duis vel nibh at velit scelerisque suscipit. Fusce pharetra convallis urna.</p>
+              <p class="mb-0">
+                Ut leo. Suspendisse potenti. Duis vel nibh at velit scelerisque
+                suscipit. Fusce pharetra convallis urna.
+              </p>
             </v-card-text>
           </v-card>
         </v-tab-item>
@@ -107,24 +141,30 @@
 <script>
 import axios from "axios";
 export default {
+  props: ["choose_Lesson"],
+  watch: {
+    choose_Lesson: function (val) {
+      console.log(val); // 接收父组件的值
+    },
+  },
   components: {},
   data() {
     return {
       dialog: false,
       tops: [
         {
-          src: "https://s1.ax1x.com/2022/03/21/qmxotO.jpg"
+          src: "https://s1.ax1x.com/2022/03/21/qmxotO.jpg",
         },
         {
-          src: "https://s1.ax1x.com/2022/03/21/qmxThD.jpg"
+          src: "https://s1.ax1x.com/2022/03/21/qmxThD.jpg",
         },
         {
-          src: "https://s1.ax1x.com/2022/03/21/qmxIAK.jpg"
-        }
+          src: "https://s1.ax1x.com/2022/03/21/qmxIAK.jpg",
+        },
       ],
       tab: null,
       data: ["我听的课", "我教的课"],
-      courses: []
+      courses: [],
     };
   },
   created() {
@@ -137,30 +177,36 @@ export default {
     request() {
       axios
         .get(`http://localhost:8080/courses/getcourses`)
-        .then(response => {
+        .then((response) => {
           let randcl = ["#58A1EF", "#BBA180", "#BBA180"];
           let res = "";
           res = response.data.courses;
           let courses = eval(res);
-          //console.log(courses);
+          console.log(courses);
+          let select_courses = [];
+          let course_id = this.choose_Lesson.split(",");
+          console.log(course_id);
           for (var i = 0, len = courses.length; i < len; i++) {
             let color_index = Math.floor(Math.random() * randcl.length);
             courses[i].fields.color = randcl[color_index];
-            // console.log(courses[i].fields.color);
-            // console.log(courses[i].fields.courseName);
+            if (course_id.includes(courses[i].fields.courseId))
+            {
+              select_courses.push(courses[i]);
+            }
           }
-          console.log(courses);
-          this.courses = courses;
+          console.log(select_courses);
+
+          this.courses = select_courses;
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         });
     },
     routerTo(item) {
       let course_name = item.fields.courseName;
       this.$router.push({ path: "/course", query: { course: course_name } });
-    }
-  }
+    },
+  },
 };
 </script>
 
