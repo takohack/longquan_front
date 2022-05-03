@@ -11,9 +11,9 @@
     </v-container>
     <v-container>
       <div class="nav-bar">
-        <div class="nav-bar-item">
+        <div class="nav-bar-item" @click=routerTo(1)>
           <img src="https://s1.ax1x.com/2022/04/05/qOf27j.png" alt />
-          <div @click="test">课程中心</div>
+          <div >课程中心</div>
         </div>
         <div class="nav-bar-item">
           <img src="https://s1.ax1x.com/2022/04/05/qOfWAs.png" alt />
@@ -171,9 +171,6 @@ export default {
     this.request();
   },
   methods: {
-    test() {
-      console.log(this.courses);
-    },
     request() {
       axios
         .get(`http://localhost:8080/courses/getcourses`)
@@ -203,6 +200,10 @@ export default {
         });
     },
     routerTo(item) {
+      if (item === 1){
+         this.$router.push("/list");
+         return
+      }
       let course_name = item.fields.courseName;
       this.$router.push({ path: "/course", query: { course: course_name } });
     },
