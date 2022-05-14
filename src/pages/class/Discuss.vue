@@ -227,14 +227,14 @@ export default {
     course_title: function () {
       return this.$route.query.course;
     },
-    course_id: function (){
+    course_id: function () {
       let map = new Map();
-      map.set("数据结构",3);
-      map.set("数学思想与数模文化",1);
-      map.set("多元统计与数学分析",2);
-      map.set("高等代数",4);
-      return map
-    }
+      map.set("数据结构", 3);
+      map.set("数学思想与数模文化", 1);
+      map.set("多元统计与数学分析", 2);
+      map.set("高等代数", 4);
+      return map;
+    },
   },
   methods: {
     request() {
@@ -263,11 +263,10 @@ export default {
       axios.get(`http://localhost:8080/getcomments?courseid=${course_id}`).then(
         (response) => {
           if (response.data.result !== "fail") {
-            let str_comments = response.data.result
+            let str_comments = response.data.result;
             let comments = JSON.parse(str_comments);
             this.comments = comments;
             // console.log(str_comments);
-
           } else {
             console.log(response.data);
             this.dialog = false;
@@ -277,7 +276,6 @@ export default {
           console.log("请求失败", error.message);
         }
       );
-
     },
     inputFocus() {
       var replyInput = document.getElementById("replyInput");
@@ -295,8 +293,8 @@ export default {
     },
     showReplyInput(i, name, id) {
       this.comments[this.index].inputShow = false;
-      for(let j = 0;j<this.comments.length;++j){
-        if(j !== i){
+      for (let j = 0; j < this.comments.length; ++j) {
+        if (j !== i) {
           this.comments[j].inputShow = false;
         }
       }

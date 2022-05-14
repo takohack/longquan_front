@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-toolbar flat color="transparent">
-      <v-btn icon>
+      <v-btn icon to='/index'>
         <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
 

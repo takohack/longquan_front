@@ -6,6 +6,12 @@ import VueRouter from 'vue-router'
 import router from './router'
 import './plugins/element.js'
 import VideoPlayer from 'vue-video-player'
+
+// markdown
+import mavonEditor from 'mavon-editor';
+import 'mavon-editor/dist/css/index.css';
+Vue.use(mavonEditor);
+
 require('video.js/dist/video-js.css')
 require('vue-video-player/src/custom-theme.css')
 

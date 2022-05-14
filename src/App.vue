@@ -20,7 +20,7 @@
               v-model="formpassword"
             ></v-text-field>
             <span class="text-caption grey--text text--darken-1">
-              {{notice}}
+              {{ notice }}
             </span>
           </v-card-text>
           <v-divider></v-divider>
@@ -51,8 +51,10 @@
 
         <v-list-item link>
           <v-list-item-content>
-            <v-list-item-title class="text-h6">{{username}}</v-list-item-title>
-            <v-list-item-subtitle>{{userid}}</v-list-item-subtitle>
+            <v-list-item-title class="text-h6">{{
+              username
+            }}</v-list-item-title>
+            <v-list-item-subtitle>{{ userid }}</v-list-item-subtitle>
           </v-list-item-content>
 
           <v-list-item-action>
@@ -107,7 +109,7 @@
     <v-main app>
       <!-- 给应用提供合适的间距 -->
       <v-container fluid class="ma-0 pa-0">
-        <router-view :choose_Lesson="choose_Lesson"></router-view>
+        <router-view :choose_Lesson="choose_Lesson" :userid = "userid"></router-view>
       </v-container>
     </v-main>
   </v-app>
@@ -145,7 +147,7 @@ export default {
               // this.$router.push("/index");
               // this.$router.go(0);
             } else {
-              this.notice = response.data.result
+              this.notice = response.data.result;
               console.log(response.data);
             }
           },
@@ -160,10 +162,10 @@ export default {
           if (response.data.result === "success") {
             console.log("success");
             console.log(response.data);
-            this.username = response.data.username
-            this.userid = response.data.userid
-            this.choose_Lesson = response.data.lesson
-            this.user_photo = response.data.photo
+            this.username = response.data.username;
+            this.userid = response.data.userid;
+            this.choose_Lesson = response.data.lesson;
+            this.user_photo = response.data.photo;
             this.is_login = true;
             this.dialog = false;
           } else {
@@ -176,35 +178,33 @@ export default {
         }
       );
     },
-    addItem(param){
-      if (param === "退出"){
+    addItem(param) {
+      if (param === "退出") {
         console.log(param);
         this.logout();
-      }
-      else if (param == "个人中心"){
+      } else if (param == "个人中心") {
         let current = this.$route.path;
-        if (current === '/profile'){
+        if (current === "/profile") {
           console.log("已在此页面 不用跳转");
-        }
-        else {
-          this.$router.push('profile')
+        } else {
+          this.$router.push("profile");
         }
       }
     },
-    logout(){
+    logout() {
       axios.get(`http://localhost:8080/user/logout`).then(
-                    response => {
-                        if (response.data.result === "success") {
-                            // this.$router.push('/index')
-                            // this.$router.go(0)
-                            this.is_login = false;
-                        }
-                    },
-                    error => {
-                        console.log('请求失败', error.message);
-                    }
-                )
-    }
+        (response) => {
+          if (response.data.result === "success") {
+            // this.$router.push('/index')
+            // this.$router.go(0)
+            this.is_login = false;
+          }
+        },
+        (error) => {
+          console.log("请求失败", error.message);
+        }
+      );
+    },
   },
 
   data: () => ({
@@ -228,7 +228,11 @@ export default {
         icon: "mdi-home-city",
         link: "/activitycenter",
       },
-      { title: "个人中心", icon: "mdi-account-circle-outline", link: "/profile" },
+      {
+        title: "个人中心",
+        icon: "mdi-account-circle-outline",
+        link: "/profile",
+      },
     ],
   }),
   computed: {

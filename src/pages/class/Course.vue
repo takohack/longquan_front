@@ -62,38 +62,38 @@
           </v-tab-item>
           <!-- 讨论 -->
           <v-tab-item>
-            <!-- <v-container v-for="(year,i) in years" :key="i">
-              <div class="info-box">
-                <div class="info-box-left">
-                  <img
-                    src="https://cdn.acwing.com/media/user/profile/photo/81390_lg_6e28d2487c.jpg"
-                    alt
-                  />
-                </div>
-                <div class="info-box-right">
-                  <div class="info-box-right-top">
-                    <span>EverSleeping</span>
-                    <span>2019-10-15 20:34</span>
-                    <span>回复</span>
-                  </div>
-                  <div
-                    class="info-box-right-content"
-                    style="border-style: bold;"
-                  >测试测试测试测试测试测试测试测试测试测试测试测试</div>
-                </div>
-              </div>
-              <v-divider></v-divider>
-            </v-container> -->
             <v-container>
               <ArticleComment></ArticleComment>
             </v-container>
           </v-tab-item>
           <!-- 公告 -->
           <v-tab-item>
-            <v-container v-for="(notice, i) in notices" :key="i">
-              <v-alert type="warning">
-                <strong>{{ notice.notice }}</strong>
-              </v-alert>
+            <v-dialog v-model="dialog" width="500">
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn color="primary" dark v-bind="attrs" v-on="on"
+                  >添加笔记</v-btn
+                >
+              </template>
+              <v-container>
+                <mavon-editor
+                  v-model="markdown"
+                  :toolbars="toolbars"
+                  @save="savemd"
+                />
+                <el-button @click="savemd" type="primary">保存笔记</el-button>
+              </v-container>
+            </v-dialog>
+            <v-container>
+              <v-expansion-panels>
+                <v-expansion-panel v-for="(md, i) in markdownToHtml" :key="i">
+                  <v-expansion-panel-header>{{
+                    md.md_date
+                  }}</v-expansion-panel-header>
+                  <v-expansion-panel-content>
+                    <p v-html="md.html"></p>
+                  </v-expansion-panel-content>
+                </v-expansion-panel>
+              </v-expansion-panels>
             </v-container>
           </v-tab-item>
         </v-tabs-items>
@@ -105,6 +105,8 @@
 <script>
 import axios from "axios";
 import ArticleComment from "./Discuss.vue";
+import { marked } from "marked";
+import moment from "moment";
 export default {
   components: {
     ArticleComment,
@@ -113,6 +115,19 @@ export default {
     this.request();
   },
   methods: {
+    savemd() {
+      let content = {};
+      content.md_content = this.markdown;
+      content.md_date = moment().format("YYYY-MM-DD HH:mm");
+      this.mdlist.push(content);
+      let md_str = JSON.stringify(this.mdlist);
+      let key = "mdlist" + this.course_title;
+      console.log(key);
+      localStorage.setItem(key, md_str);
+      console.log("本地存储成功");
+      this.markdown = "## 课堂笔记";
+      this.dialog = false;
+    },
     routerTo(chapter) {
       let lesson_name = chapter.chapter;
       let course_title = this.course_title;
@@ -175,13 +190,43 @@ export default {
         .catch(function (error) {
           console.log(error);
         });
+      let key = "mdlist" + this.course_title;
+      let local_str = localStorage.getItem(key);
+      if (local_str === null) {
+        this.mdlist = [
+          {
+            md_date: "2022年5月14日14点18分",
+            md_content: "## 课堂笔记",
+          },
+        ];
+      } else {
+        this.mdlist = JSON.parse(local_str);
+      }
     },
   },
   data() {
     return {
+      md_index: 1,
+      dialog: false,
+      markdown: "## 课堂笔记",
+      mdlist: [
+        {
+          md_date: "2022年5月14日14点18分",
+          md_content: "## 课堂笔记",
+        },
+      ],
+      toolbars: {
+        bold: true, // 粗体
+        italic: true, // 斜体
+        header: true, // 标题
+        subfield: true, // 是否需要分栏
+        fullscreen: true, // 全屏编辑
+        readmodel: true, // 沉浸式阅读
+        save: true,
+      },
       playerOptions: {
-        width: '350px',
-        height: '160px',
+        width: "350px",
+        height: "160px",
         muted: true,
         language: "en",
         playbackRates: [0.7, 1.0, 1.5, 2.0],
@@ -199,39 +244,22 @@ export default {
       newest_homework: null,
       newest_notice: null,
       tab: null,
-      data: ["课堂", "讨论", "通知"],
-      years: [
-        {
-          color: "cyan",
-          year: "4月25日",
-          lesson: "第六章:差分方程",
-        },
-        {
-          color: "green",
-          year: "4月14日",
-          lesson: "第五章:复习",
-        },
-        {
-          color: "pink",
-          year: "4月13日",
-          lesson: "第四章:稳定性与定性理论初步",
-        },
-        {
-          color: "amber",
-          year: "4月07日",
-          lesson: "第三章:线性微分方程组",
-        },
-        {
-          color: "orange",
-          year: "4月06日",
-          lesson: "第二章:线性微分方程",
-        },
-      ],
+      data: ["课堂", "讨论", "笔记"],
     };
   },
   computed: {
     course_title: function () {
       return this.$route.query.course;
+    },
+    markdownToHtml() {
+      let result = [];
+      for (let i = 0, len = this.mdlist.length; i < len; i++) {
+        let temp = {};
+        temp.md_date = this.mdlist[i].md_date;
+        temp.html = marked(this.mdlist[i].md_content);
+        result.push(temp);
+      }
+      return result;
     },
   },
 };
@@ -312,5 +340,4 @@ export default {
   font-size: 14px;
   color: #333333;
 }
-
 </style>

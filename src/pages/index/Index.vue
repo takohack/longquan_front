@@ -1,5 +1,19 @@
 <template>
   <div>
+    <v-dialog v-model="note_dialog" width="500">
+      <v-container>
+        <v-card flat>
+          <v-card-title class="text-h5">笔记列表</v-card-title>
+        </v-card>
+      </v-container>
+    </v-dialog>
+    <v-dialog v-model="favor_dialog" width="500">
+      <v-container>
+        <v-card flat>
+          <v-card-title class="text-h5">收藏列表</v-card-title>
+        </v-card>
+      </v-container>
+    </v-dialog>
     <v-container>
       <v-carousel height="auto" hide-delimiters>
         <v-carousel-item
@@ -11,15 +25,15 @@
     </v-container>
     <v-container>
       <div class="nav-bar">
-        <div class="nav-bar-item" @click=routerTo(1)>
+        <div class="nav-bar-item" @click="routerTo(1)">
           <img src="https://s1.ax1x.com/2022/04/05/qOf27j.png" alt />
-          <div >课程中心</div>
+          <div>课程中心</div>
         </div>
-        <div class="nav-bar-item">
+        <div class="nav-bar-item" @click="note_dialog = !note_dialog">
           <img src="https://s1.ax1x.com/2022/04/05/qOfWAs.png" alt />
-          <div>本周作业</div>
+          <div>笔记管理</div>
         </div>
-        <div class="nav-bar-item">
+        <div class="nav-bar-item" @click="favor_dialog = !favor_dialog">
           <img src="https://s1.ax1x.com/2022/04/05/qOfgBQ.png" alt />
           <div>我的收藏</div>
         </div>
@@ -28,48 +42,19 @@
     <v-container>
       <v-tabs v-model="tab">
         <v-tab v-for="item in data" :key="item">{{ item }}</v-tab>
-        <!-- <v-menu bottom left>
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn color="primary" dark class="align-self-center mr-4" v-bind="attrs" v-on="on">
-              添加课程
-            </v-btn>
-          </template>
-        </v-menu>-->
-        <div class="text-center">
+        <!-- <div class="text-center">
           <v-dialog v-model="dialog" width="500">
             <template v-slot:activator="{ on, attrs }">
               <v-btn color="primary" dark v-bind="attrs" v-on="on"
                 >添加课程</v-btn
               >
             </template>
-
-            <v-card>
-              <v-card-title class="text-h5 grey lighten-2"
-                >Privacy Policy</v-card-title
-              >
-
-              <v-card-text
-                >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est
-                laborum.</v-card-text
-              >
-
-              <v-divider></v-divider>
-
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="primary" text @click="dialog = false"
-                  >I accept</v-btn
-                >
-              </v-card-actions>
-            </v-card>
+            <v-container> -->
+              <!-- <textarea v-model="markdown"></textarea> -->
+              <!-- <div v-html="markdownToHtml"></div>
+            </v-container>
           </v-dialog>
-        </div>
+        </div> -->
       </v-tabs>
       <v-tabs-items v-model="tab">
         <v-tab-item>
@@ -109,28 +94,7 @@
         </v-tab-item>
         <v-tab-item>
           <v-card flat>
-            <v-card-title class="text-h5">An awesome title</v-card-title>
-            <v-card-text>
-              <p>
-                Duis lobortis massa imperdiet quam. Donec vitae orci sed dolor
-                rutrum auctor. Vestibulum facilisis, purus nec pulvinar iaculis,
-                ligula mi congue nunc, vitae euismod ligula urna in dolor.
-                Praesent congue erat at massa.
-              </p>
-
-              <p>
-                Aenean posuere, tortor sed cursus feugiat, nunc augue blandit
-                nunc, eu sollicitudin urna dolor sagittis lacus. Pellentesque
-                egestas, neque sit amet convallis pulvinar, justo nulla eleifend
-                augue, ac auctor orci leo non est. Etiam sit amet orci eget eros
-                faucibus tincidunt. Donec sodales sagittis magna.
-              </p>
-
-              <p class="mb-0">
-                Ut leo. Suspendisse potenti. Duis vel nibh at velit scelerisque
-                suscipit. Fusce pharetra convallis urna.
-              </p>
-            </v-card-text>
+            <v-card-title class="text-h5">当前为学生用户</v-card-title>
           </v-card>
         </v-tab-item>
       </v-tabs-items>
@@ -140,6 +104,8 @@
 
 <script>
 import axios from "axios";
+//引入marked
+import { marked } from "marked";
 export default {
   props: ["choose_Lesson"],
   watch: {
@@ -150,6 +116,15 @@ export default {
   components: {},
   data() {
     return {
+      markdown: "# Hello World",
+      toolbars: {
+        bold: true, // 粗体
+        italic: true, // 斜体
+        header: true, // 标题
+        save: true,
+      },
+      note_dialog: false,
+      favor_dialog: false,
       dialog: false,
       tops: [
         {
@@ -171,6 +146,9 @@ export default {
     this.request();
   },
   methods: {
+    test() {
+      console.log(this.value);
+    },
     request() {
       axios
         .get(`http://localhost:8080/courses/getcourses`)
@@ -186,8 +164,7 @@ export default {
           for (var i = 0, len = courses.length; i < len; i++) {
             let color_index = Math.floor(Math.random() * randcl.length);
             courses[i].fields.color = randcl[color_index];
-            if (course_id.includes(courses[i].fields.courseId))
-            {
+            if (course_id.includes(courses[i].fields.courseId)) {
               select_courses.push(courses[i]);
             }
           }
@@ -200,12 +177,17 @@ export default {
         });
     },
     routerTo(item) {
-      if (item === 1){
-         this.$router.push("/list");
-         return
+      if (item === 1) {
+        this.$router.push("/list");
+        return;
       }
       let course_name = item.fields.courseName;
       this.$router.push({ path: "/course", query: { course: course_name } });
+    },
+  },
+  computed: {
+    markdownToHtml() {
+      return marked(this.markdown);
     },
   },
 };
