@@ -226,7 +226,7 @@ export default {
       {
         title: "学习日历",
         icon: "mdi-home-city",
-        link: "/activitycenter",
+        link: "/chat",
       },
       {
         title: "个人中心",

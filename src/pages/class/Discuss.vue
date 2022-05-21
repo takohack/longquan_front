@@ -99,6 +99,7 @@
 </template>
 
 <script>
+import moment from "moment";
 import axios from "axios";
 const clickoutside = {
   // 初始化指令
@@ -137,7 +138,7 @@ export default {
       replyComment: "",
       myName: "Lana Del Rey",
       myHeader:
-        "https://ae01.alicdn.com/kf/Hd60a3f7c06fd47ae85624badd32ce54dv.jpg",
+        "https://cdn.acwing.com/media/user/profile/photo/97206_lg_708621592e.jpg",
       myId: 19870621,
       to: "",
       toId: -1,
@@ -146,34 +147,34 @@ export default {
           name: "李振宁",
           id: 19870621,
           headImg:
-            "https://ae01.alicdn.com/kf/Hd60a3f7c06fd47ae85624badd32ce54dv.jpg",
-          comment: "我发布一张新专辑Norman Fucking Rockwell,大家快来听啊",
-          time: "2019年9月16日 18:43",
+            "https://cdn.acwing.com/media/user/profile/photo/97206_lg_708621592e.jpg",
+          comment: "代数余子式和对应元素取值无关证明不明白?",
+          time: "2022年5月16日 18:43",
           commentNum: 2,
           like: 15,
           inputShow: false,
           reply: [
             {
-              from: "Taylor Swift",
+              from: "徐涛",
               fromId: 19891221,
               fromHeadImg:
-                "https://ae01.alicdn.com/kf/H94c78935ffa64e7e977544d19ecebf06L.jpg",
-              to: "Lana Del Rey",
+                "https://cdn.acwing.com/media/user/profile/photo/102505_lg_1a26680ed8.jpg",
+              to: "李振宁",
               toId: 19870621,
-              comment: "我很喜欢你的新专辑！！",
+              comment: "Aij是行列式划掉第i行第j列的n-1阶子式乘(-1)^{i+j}，当然和第i行没关系啦",
               time: "2019年9月16日 18:43",
               commentNum: 1,
               like: 15,
               inputShow: false,
             },
             {
-              from: "Ariana Grande",
+              from: "周成昊",
               fromId: 1123,
               fromHeadImg:
-                "https://ae01.alicdn.com/kf/Hf6c0b4a7428b4edf866a9fbab75568e6U.jpg",
-              to: "Lana Del Rey",
+                "https://cdn.acwing.com/media/user/profile/photo/189259_lg_8256a640bc.jpg",
+              to: "李振宁",
               toId: 19870621,
-              comment: "别忘记宣传我们的合作单曲啊",
+              comment: "就是证明kA与(k^-1)(A^-1)的乘积为单位阵。k与k^-1都是数，可以交换次序，立即得证。",
               time: "2019年9月16日 18:43",
               commentNum: 0,
               like: 5,
@@ -182,42 +183,30 @@ export default {
           ],
         },
         {
-          name: "Taylor Swift",
+          name: "李振宁",
           id: 19891221,
           headImg:
-            "https://ae01.alicdn.com/kf/H94c78935ffa64e7e977544d19ecebf06L.jpg",
-          comment: "我发行了我的新专辑Lover",
+            "https://cdn.acwing.com/media/user/profile/photo/97206_lg_708621592e.jpg",
+          comment: "伴随矩阵的秩与原矩阵的秩的关系是什么样的",
           time: "2019年9月16日 18:43",
           commentNum: 1,
           like: 5,
           inputShow: false,
           reply: [
             {
-              from: "Lana Del Rey",
+              from: "周成昊",
               fromId: 19870621,
               fromHeadImg:
-                "https://ae01.alicdn.com/kf/Hd60a3f7c06fd47ae85624badd32ce54dv.jpg",
-              to: "Taylor Swift",
+                "https://cdn.acwing.com/media/user/profile/photo/189259_lg_8256a640bc.jpg",
+              to: "李振宁",
               toId: 19891221,
-              comment: "新专辑和speak now 一样棒！",
+              comment: "r(A)=n,r(A*)=n;r(A)=n-1,r(A*)=1;r(A)<n-1,r(A*)=0",
               time: "2019年9月16日 18:43",
               commentNum: 25,
               like: 5,
               inputShow: false,
             },
           ],
-        },
-        {
-          name: "Norman Fucking Rockwell",
-          id: 20190830,
-          headImg:
-            "https://ae01.alicdn.com/kf/Hdd856ae4c81545d2b51fa0c209f7aa28Z.jpg",
-          comment: "Plz buy Norman Fucking Rockwell on everywhere",
-          time: "2019年9月16日 18:43",
-          commentNum: 0,
-          like: 5,
-          inputShow: false,
-          reply: [],
         },
       ],
     };
@@ -338,7 +327,7 @@ export default {
         let a = {};
         let input = document.getElementById("replyInput");
         let timeNow = new Date().getTime();
-        let time = this.dateStr(timeNow);
+        let time = moment().format("YYYY-MM-DD HH:mm");
         a.name = this.myName;
         a.comment = this.replyComment;
         a.headImg = this.myHeader;
@@ -363,7 +352,7 @@ export default {
       } else {
         let a = {};
         let timeNow = new Date().getTime();
-        let time = this.dateStr(timeNow);
+        let time = moment().format("YYYY-MM-DD HH:mm");
         a.from = this.myName;
         a.to = this.to;
         a.fromHeadImg = this.myHeader;
