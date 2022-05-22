@@ -11,12 +11,34 @@
 </template>
 
 <script>
+import axios from "axios";
 import ChatWindow from "vue-advanced-chat";
 import "vue-advanced-chat/dist/vue-advanced-chat.css";
+import moment from "moment";
 
 export default {
   created() {
+    //获取用户信息
+    axios.get(`http://localhost:8080/user/getinfo`).then(
+      (response) => {
+        if (response.data.result === "success") {
+          console.log("success");
+          console.log(response.data);
+          this.username = response.data.username;
+          this.user_photo = response.data.photo;
+          console.log(this.user_photo);
+        } else {
+          console.log(response.data);
+          this.dialog = false;
+        }
+      },
+      (error) => {
+        console.log("请求失败", error.message);
+      }
+    );
+
     const _this = this;
+
     const socketUrl = "ws://127.0.0.1:8000/lesson/wuhu";
     if (this.socket == null) {
       console.log("创建新的socket连接");
@@ -30,22 +52,26 @@ export default {
         let recive_data = JSON.parse(msg.data);
         console.log("收到websocket是");
         console.log(recive_data);
+        _this.message_index += 1;
+        console.log(_this.user_photo);
+        let temp_senderId = 999;
+        if (recive_data.user_photo === _this.user_photo) {
+          console.log("是自己发的");
+          temp_senderId = 1234;
+        }
         let send_message = {
-          _id: 7890,
-          indexId: 100,
+          _id: 1234,
+          indexId: _this.message_index,
           content: recive_data.message,
-          senderId: 1234,
-          username: "John Doe",
-          avatar:
-            "https://cdn.acwing.com/media/user/profile/photo/97206_lg_708621592e.jpg",
-          date: "13 November",
-          timestamp: "10:20",
+          senderId: temp_senderId,
+          username: recive_data.name,
+          avatar: recive_data.user_photo,
+          date: _this.time,
+          timestamp: _this.time,
           saved: true,
           distributed: true,
           seen: true,
         };
-        console.log("准备发送的message是");
-        console.log(send_message);
         let temp_arr = JSON.parse(JSON.stringify(_this.messages));
         console.log(_this.messages.length);
         temp_arr.push(send_message);
@@ -82,6 +108,8 @@ export default {
       this.socket.send(
         JSON.stringify({
           message: data,
+          photo: this.user_photo,
+          name: this.username,
         })
       );
     },
@@ -91,16 +119,19 @@ export default {
   },
   data() {
     return {
+      // course_title: "",
+      user_photo: "",
+      username: "",
       display_message: {
         CONVERSATION_STARTED: "最后一条消息 :",
         LAST_SEEN: "课堂会话开始于 ",
       },
       socket: null,
-      userid: 10,
+      message_index: 10,
       rooms: [
         {
           roomId: 1,
-          roomName: "高等数学",
+          roomName: "课堂聊天室",
           avatar: "https://s1.ax1x.com/2022/04/05/qOf27j.png",
           unreadCount: 4,
           index: 3,
@@ -114,6 +145,44 @@ export default {
             seen: false,
             new: true,
           },
+          users: [
+            {
+              _id: 1234,
+              username: "John Doe",
+              avatar: "assets/imgs/doe.png",
+              status: {
+                state: "online",
+                lastChanged: "today, 14:30",
+              },
+            },
+            {
+              _id: 4321,
+              username: "John Snow",
+              avatar: "assets/imgs/snow.png",
+              status: {
+                state: "offline",
+                lastChanged: "14 July, 20:00",
+              },
+            },
+            {
+              _id: 4322,
+              username: "John Snow",
+              avatar: "assets/imgs/snow.png",
+              status: {
+                state: "offline",
+                lastChanged: "14 July, 20:00",
+              },
+            },
+            {
+              _id: 4323,
+              username: "John Snow",
+              avatar: "assets/imgs/snow.png",
+              status: {
+                state: "offline",
+                lastChanged: "14 July, 20:00",
+              },
+            },
+          ],
         },
       ],
       messages: [
@@ -134,6 +203,18 @@ export default {
       ],
       currentUserId: 1234,
     };
+  },
+  computed: {
+    course_title: function () {
+      return this.$route.query.course;
+    },
+    time: {
+      cache: false,
+      get: function () {
+        // return moment().format("YYYY-MM-DD HH:mm");
+        return moment().format("HH:mm");
+      },
+    },
   },
 };
 </script>

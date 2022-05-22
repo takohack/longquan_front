@@ -9,6 +9,48 @@
           :options="playerOptions"
         ></video-player>
       </v-container>
+
+      <!-- 签到 -->
+      <v-dialog v-model="sign_diag" persistent max-width="290">
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn color="primary" dark v-bind="attrs" v-on="on">签到</v-btn>
+        </template>
+        <v-card>
+          <v-card-title class="text-h5">签到成功</v-card-title>
+          <v-card-text>签到时间: {{ time }}</v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="green darken-1" text @click="sign_diag = false"
+              >完成</v-btn
+            >
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
+      <!-- 聊天室 -->
+      <v-dialog v-model="chat_diag" persistent>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            color="blue-grey"
+            class="ma-2 white--text"
+            dark
+            v-bind="attrs"
+            v-on="on"
+            >课堂聊天室</v-btn
+          >
+        </template>
+        <v-card>
+          <v-container>
+            <Chat/>
+          </v-container>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="green darken-1" text @click="chat_diag = false"
+              >关闭聊天室</v-btn
+            >
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
       <h3>{{ course_title }}</h3>
       <v-divider></v-divider>
       <v-container>
@@ -105,11 +147,19 @@
 <script>
 import axios from "axios";
 import ArticleComment from "./Discuss.vue";
+import Chat from "./Chat.vue";
 import { marked } from "marked";
 import moment from "moment";
 export default {
+  props: ["user_photo"],
+  watch: {
+    user_photo: function (val) {
+      console.log(val); // 接收父组件的值
+    },
+  },
   components: {
     ArticleComment,
+    Chat,
   },
   created() {
     this.request();
@@ -206,6 +256,8 @@ export default {
   },
   data() {
     return {
+      chat_diag: false,
+      sign_diag: false,
       md_index: 1,
       dialog: false,
       markdown: "## 课堂笔记",
@@ -260,6 +312,12 @@ export default {
         result.push(temp);
       }
       return result;
+    },
+    time: {
+      cache: false,
+      get: function () {
+        return moment().format("YYYY-MM-DD HH:mm");
+      },
     },
   },
 };

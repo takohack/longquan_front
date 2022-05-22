@@ -1,18 +1,35 @@
 <template>
   <div>
     <v-dialog v-model="note_dialog" width="500">
-      <v-container>
-        <v-card flat>
-          <v-card-title class="text-h5">笔记列表</v-card-title>
-        </v-card>
-      </v-container>
+      <v-card flat>
+        <v-card-title class="text-h5">消息通知列表</v-card-title>
+        <v-card-text>
+          <div>还没有收到通知</div>
+          <div>重要的教学活动通知,在这里提示</div>
+        </v-card-text>
+      </v-card>
     </v-dialog>
     <v-dialog v-model="favor_dialog" width="500">
-      <v-container>
-        <v-card flat>
-          <v-card-title class="text-h5">收藏列表</v-card-title>
-        </v-card>
-      </v-container>
+      <v-expansion-panels>
+        <v-expansion-panel>
+          <v-expansion-panel-header> 课堂回放 </v-expansion-panel-header>
+          <v-expansion-panel-content>
+            列表为空
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+        <v-expansion-panel>
+          <v-expansion-panel-header> 课堂笔记</v-expansion-panel-header>
+          <v-expansion-panel-content>
+            列表为空
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+        <v-expansion-panel>
+          <v-expansion-panel-header> 课堂资料 </v-expansion-panel-header>
+          <v-expansion-panel-content>
+            列表为空
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </v-expansion-panels>
     </v-dialog>
     <v-container>
       <v-carousel height="auto" hide-delimiters>
@@ -31,7 +48,7 @@
         </div>
         <div class="nav-bar-item" @click="note_dialog = !note_dialog">
           <img src="https://s1.ax1x.com/2022/04/05/qOfWAs.png" alt />
-          <div>笔记管理</div>
+          <div>消息通知</div>
         </div>
         <div class="nav-bar-item" @click="favor_dialog = !favor_dialog">
           <img src="https://s1.ax1x.com/2022/04/05/qOfgBQ.png" alt />
@@ -50,8 +67,8 @@
               >
             </template>
             <v-container> -->
-              <!-- <textarea v-model="markdown"></textarea> -->
-              <!-- <div v-html="markdownToHtml"></div>
+        <!-- <textarea v-model="markdown"></textarea> -->
+        <!-- <div v-html="markdownToHtml"></div>
             </v-container>
           </v-dialog>
         </div> -->
@@ -183,11 +200,6 @@ export default {
       }
       let course_name = item.fields.courseName;
       this.$router.push({ path: "/course", query: { course: course_name } });
-    },
-  },
-  computed: {
-    markdownToHtml() {
-      return marked(this.markdown);
     },
   },
 };

@@ -109,7 +109,7 @@
     <v-main app>
       <!-- 给应用提供合适的间距 -->
       <v-container fluid class="ma-0 pa-0">
-        <router-view :choose_Lesson="choose_Lesson" :userid = "userid"></router-view>
+        <router-view :choose_Lesson="choose_Lesson" :user_photo = "user_photo" ></router-view>
       </v-container>
     </v-main>
   </v-app>

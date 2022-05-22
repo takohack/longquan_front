@@ -7,7 +7,7 @@
         </v-alert>
       </v-container>
       <v-container>
-        <v-row justify="center">
+        <!-- <v-row justify="center">
           <v-dialog v-model="dialog" persistent max-width="290">
             <template v-slot:activator="{ on, attrs }">
               <v-btn color="primary" dark v-bind="attrs" v-on="on">签到</v-btn>
@@ -23,9 +23,25 @@
               </v-card-actions>
             </v-card>
           </v-dialog>
-        </v-row>
+        </v-row> -->
       </v-container>
       <v-expansion-panels focusable multiple>
+        <v-expansion-panel>
+          <v-expansion-panel-header>课堂回放</v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <v-container>
+              <iframe
+                src="//player.bilibili.com/player.html?aid=382989698&bvid=BV16Z4y1U7oU&cid=569889975&page=2&danmaku=0"
+                scrolling="no"
+                border="0"
+                frameborder="no"
+                framespacing="0"
+                allowfullscreen="true"
+              >
+              </iframe>
+            </v-container>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
         <v-expansion-panel>
           <v-expansion-panel-header>课堂练习</v-expansion-panel-header>
           <v-expansion-panel-content>
@@ -196,6 +212,27 @@ export default {
           content: ["书p234习题1.3"],
         },
       ],
+      playerOptions: {
+        width: "350px",
+        height: "160px",
+        muted: true,
+        language: "en",
+        playbackRates: [0.7, 1.0, 1.5, 2.0],
+        sources: [
+          {
+            type: "video/mp4",
+            src: "http://vjs.zencdn.net/v/oceans.mp4",
+          },
+        ],
+        poster: "https://s1.ax1x.com/2022/04/10/LkWSUI.png",
+      },
+      chapters: [],
+      notices: [],
+      homeworks: [],
+      newest_homework: null,
+      newest_notice: null,
+      tab: null,
+      data: ["课堂", "讨论", "笔记"],
     };
   },
   computed: {
