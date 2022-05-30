@@ -15,7 +15,7 @@
                   <v-subheader class="text-h6 lighten-2">姓名</v-subheader>
                 </v-col>
                 <v-col cols="8">
-                  <v-text-field value="李龙雨"></v-text-field>
+                  <v-text-field :value="username"></v-text-field>
                 </v-col>
               </v-row>
 
@@ -24,7 +24,7 @@
                   <v-subheader class="text-h6 lighten-2">学号</v-subheader>
                 </v-col>
                 <v-col cols="8">
-                  <v-text-field value="1131180229"></v-text-field>
+                  <v-text-field :value="userid"></v-text-field>
                 </v-col>
               </v-row>
 
@@ -55,15 +55,13 @@
         <v-card>
           <v-card-title class="text-h5 grey lighten-2"> 笔记管理 </v-card-title>
 
-          <v-card-text>
-            还没有上传过笔记
-          </v-card-text>
+          <v-card-text> 还没有上传过笔记 </v-card-text>
 
           <v-divider></v-divider>
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary"  elevation="2" text @click="dialog2 = false">
+            <v-btn color="primary" elevation="2" text @click="dialog2 = false">
               关闭
             </v-btn>
           </v-card-actions>
@@ -75,9 +73,7 @@
         <v-card>
           <v-card-title class="text-h5 grey lighten-2"> 作业管理 </v-card-title>
 
-          <v-card-text>
-            还未上传过作业
-          </v-card-text>
+          <v-card-text> 还未上传过作业 </v-card-text>
 
           <v-divider></v-divider>
 
@@ -172,12 +168,36 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
+  created() {
+    this.request();
+  },
+  methods: {
+    request() {
+      axios.get(`http://localhost:8080/user/getinfo`).then(
+        (response) => {
+          if (response.data.result === "success") {
+            this.username = response.data.username;
+            this.userid = response.data.userid;
+          } else {
+            console.log(response.data);
+            this.dialog = false;
+          }
+        },
+        (error) => {
+          console.log("请求失败", error.message);
+        }
+      );
+    },
+  },
   data: () => ({
     selectedItem: null,
     dialog1: false,
     dialog2: false,
     dialog3: false,
+    username: null,
+    userid: null,
   }),
 };
 </script>

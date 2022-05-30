@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-toolbar flat color="transparent">
-      <v-btn icon to='/index'>
+      <v-btn icon to="/index">
         <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
 
@@ -77,6 +77,10 @@ export default {
       map.set("数学思想与数模文化", 1);
       map.set("多元统计与数学分析", 2);
       map.set("高等代数", 4);
+      map.set("数学分析", 5);
+      map.set("解析几何", 6);
+      map.set("常微分方程", 8);
+      map.set("离散数学", 7);
       return map;
     },
     items: {

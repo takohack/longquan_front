@@ -288,7 +288,7 @@ export default {
             src: "http://vjs.zencdn.net/v/oceans.mp4",
           },
         ],
-        poster: "https://s1.ax1x.com/2022/04/10/LkWSUI.png",
+        poster: "https://pic4.zhimg.com/v2-c80bda88f55543e015fc6016ae31bc28_r.jpg?source=1940ef5c",
       },
       chapters: [],
       notices: [],

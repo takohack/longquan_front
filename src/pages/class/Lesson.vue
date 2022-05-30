@@ -7,23 +7,6 @@
         </v-alert>
       </v-container>
       <v-container>
-        <!-- <v-row justify="center">
-          <v-dialog v-model="dialog" persistent max-width="290">
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn color="primary" dark v-bind="attrs" v-on="on">签到</v-btn>
-            </template>
-            <v-card>
-              <v-card-title class="text-h5">签到成功</v-card-title>
-              <v-card-text>签到时间: {{ time }}</v-card-text>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="green darken-1" text @click="dialog = false"
-                  >完成</v-btn
-                >
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-        </v-row> -->
       </v-container>
       <v-expansion-panels focusable multiple>
         <v-expansion-panel>
@@ -72,7 +55,7 @@
                       <v-icon>{{ ref_icon }}</v-icon>
                     </v-list-item-action>
                     <v-list-item-content>
-                      <v-list-item-title>{{ ref.title }}</v-list-item-title>
+                      <v-list-item-title @click="goto(ref.url)">{{ ref.title }}</v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>
                 </v-list-item-group>
@@ -119,6 +102,10 @@ export default {
       let url = myMap.get(value);
       window.open(url, "_blank");
     },
+    goto: function (value){
+      console.log(value);
+      window.open(value,'_blank');
+    },
     request() {
       axios
         .get(`http://localhost:8080/courses/getlessons`)
@@ -163,7 +150,7 @@ export default {
                 array_references.push(item);
               }
               this.references = array_references;
-              //console.log(this.references);
+              console.log(this.references);
               for (let key in this.homeworks) {
                 let item = {
                   id: key,

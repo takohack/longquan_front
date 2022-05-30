@@ -158,10 +158,11 @@ export default {
               from: "徐涛",
               fromId: 19891221,
               fromHeadImg:
-                "https://cdn.acwing.com/media/user/profile/photo/102505_lg_1a26680ed8.jpg",
+                "https://cdn.acwing.com/media/user/profile/photo/122318_lg_d6425e163c.jpg",
               to: "李振宁",
               toId: 19870621,
-              comment: "Aij是行列式划掉第i行第j列的n-1阶子式乘(-1)^{i+j}，当然和第i行没关系啦",
+              comment:
+                "Aij是行列式划掉第i行第j列的n-1阶子式乘(-1)^{i+j}，当然和第i行没关系啦",
               time: "2019年9月16日 18:43",
               commentNum: 1,
               like: 15,
@@ -174,7 +175,8 @@ export default {
                 "https://cdn.acwing.com/media/user/profile/photo/189259_lg_8256a640bc.jpg",
               to: "李振宁",
               toId: 19870621,
-              comment: "就是证明kA与(k^-1)(A^-1)的乘积为单位阵。k与k^-1都是数，可以交换次序，立即得证。",
+              comment:
+                "就是证明kA与(k^-1)(A^-1)的乘积为单位阵。k与k^-1都是数，可以交换次序，立即得证。",
               time: "2019年9月16日 18:43",
               commentNum: 0,
               like: 5,
@@ -222,6 +224,11 @@ export default {
       map.set("数学思想与数模文化", 1);
       map.set("多元统计与数学分析", 2);
       map.set("高等代数", 4);
+      map.set("数学分析", 5);
+      map.set("解析几何", 6);
+      map.set("常微分方程", 8);
+      map.set("离散数学", 7);
+
       return map;
     },
   },

@@ -13,21 +13,15 @@
       <v-expansion-panels>
         <v-expansion-panel>
           <v-expansion-panel-header> 课堂回放 </v-expansion-panel-header>
-          <v-expansion-panel-content>
-            列表为空
-          </v-expansion-panel-content>
+          <v-expansion-panel-content> 列表为空 </v-expansion-panel-content>
         </v-expansion-panel>
         <v-expansion-panel>
           <v-expansion-panel-header> 课堂笔记</v-expansion-panel-header>
-          <v-expansion-panel-content>
-            列表为空
-          </v-expansion-panel-content>
+          <v-expansion-panel-content> 列表为空 </v-expansion-panel-content>
         </v-expansion-panel>
         <v-expansion-panel>
           <v-expansion-panel-header> 课堂资料 </v-expansion-panel-header>
-          <v-expansion-panel-content>
-            列表为空
-          </v-expansion-panel-content>
+          <v-expansion-panel-content> 列表为空 </v-expansion-panel-content>
         </v-expansion-panel>
       </v-expansion-panels>
     </v-dialog>
@@ -151,7 +145,7 @@ export default {
           src: "https://s1.ax1x.com/2022/03/21/qmxThD.jpg",
         },
         {
-          src: "https://s1.ax1x.com/2022/03/21/qmxIAK.jpg",
+          src: "https://s1.ax1x.com/2022/05/30/XltaC9.jpg",
         },
       ],
       tab: null,
@@ -177,6 +171,9 @@ export default {
           console.log(courses);
           let select_courses = [];
           let course_id = this.choose_Lesson.split(",");
+          if (course_id[0] === "" && course_id.length === 1) {
+            course_id = ["1", "2", "3", "4"];
+          }
           console.log(course_id);
           for (var i = 0, len = courses.length; i < len; i++) {
             let color_index = Math.floor(Math.random() * randcl.length);

@@ -109,7 +109,10 @@
     <v-main app>
       <!-- 给应用提供合适的间距 -->
       <v-container fluid class="ma-0 pa-0">
-        <router-view :choose_Lesson="choose_Lesson" :user_photo = "user_photo" ></router-view>
+        <router-view
+          :choose_Lesson="choose_Lesson"
+          :user_photo="user_photo"
+        ></router-view>
       </v-container>
     </v-main>
   </v-app>
@@ -224,11 +227,6 @@ export default {
       { title: "首页", icon: "mdi-account-group-outline", link: "/index" },
       { title: "课程中心", icon: "mdi-account", link: "/list" },
       {
-        title: "学习日历",
-        icon: "mdi-home-city",
-        link: "/chat",
-      },
-      {
         title: "个人中心",
         icon: "mdi-account-circle-outline",
         link: "/profile",
@@ -238,16 +236,18 @@ export default {
   computed: {
     current_title: function () {
       let current = this.$route.path;
-      if (current === "/teenhome") {
-        return "青年之家";
-      } else if (current === "/activitycenter") {
-        return "青少年活动中心";
-      } else if (current === "/place") {
-        return "青少年宫";
+      if (current === "/list") {
+        return "课程中心";
+      } else if (current === "/course") {
+        return "课程详情";
+      } else if (current === "/lesson") {
+        return "课堂详情";
       } else if (current === "/index") {
-        return "雨课堂";
+        return "江南课堂";
+      } else if (current === "/profile") {
+        return "个人中心";
       } else {
-        return "还没有做";
+        return "江南课堂";
       }
     },
   },
