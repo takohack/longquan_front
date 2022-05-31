@@ -13,7 +13,9 @@
       <!-- 签到 -->
       <v-dialog v-model="sign_diag" persistent max-width="290">
         <template v-slot:activator="{ on, attrs }">
-          <v-btn color="primary" dark v-bind="attrs" v-on="on">签到</v-btn>
+          <v-btn color="primary" dark v-bind="attrs" v-on="on" @click="sign"
+            >签到</v-btn
+          >
         </template>
         <v-card>
           <v-card-title class="text-h5">签到成功</v-card-title>
@@ -41,7 +43,7 @@
         </template>
         <v-card>
           <v-container>
-            <Chat/>
+            <Chat />
           </v-container>
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -151,11 +153,14 @@ import Chat from "./Chat.vue";
 import { marked } from "marked";
 import moment from "moment";
 export default {
-  props: ["user_photo"],
+  props: ["user_photo","user_name"],
   watch: {
     user_photo: function (val) {
-      console.log(val); // 接收父组件的值
+      //console.log(val); // 接收父组件的值
     },
+    user_name: function (val){
+      //console.log(val); // 接收父组件的值
+    }
   },
   components: {
     ArticleComment,
@@ -165,6 +170,28 @@ export default {
     this.request();
   },
   methods: {
+    sign() {
+      let cur_time = moment().format("YYYY-MM-DD HH:mm");
+      axios
+        .get(
+          `http://localhost:8080/user/sign?username=${this.user_name}&time=${cur_time}&course=${this.course_title}`
+        )
+        .then(
+          (response) => {
+            if (response.data.result === "success") {
+              console.log("sign success");
+              // this.$router.push("/index");
+              // this.$router.go(0);
+            } else {
+              this.notice = response.data.result;
+              console.log(response.data);
+            }
+          },
+          (error) => {
+            console.log("请求失败", error.message);
+          }
+        );
+    },
     savemd() {
       let content = {};
       content.md_content = this.markdown;
@@ -288,7 +315,8 @@ export default {
             src: "http://vjs.zencdn.net/v/oceans.mp4",
           },
         ],
-        poster: "https://pic4.zhimg.com/v2-c80bda88f55543e015fc6016ae31bc28_r.jpg?source=1940ef5c",
+        poster:
+          "https://pic4.zhimg.com/v2-c80bda88f55543e015fc6016ae31bc28_r.jpg?source=1940ef5c",
       },
       chapters: [],
       notices: [],

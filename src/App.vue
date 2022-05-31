@@ -112,6 +112,7 @@
         <router-view
           :choose_Lesson="choose_Lesson"
           :user_photo="user_photo"
+          :user_name = "username"
         ></router-view>
       </v-container>
     </v-main>
